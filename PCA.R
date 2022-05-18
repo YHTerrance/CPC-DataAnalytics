@@ -9,7 +9,7 @@ library(tidySEM)
 library(ggplot2)
 library(dplyr)
 library(semPlot)
-dataset <- read.xlsx("data_oil_new_new.xlsx", sheetIndex = 1, encoding="UTF-8-BOM", fill = TRUE)
+dataset <- read.xlsx("data_oil_mod.xlsx", sheetIndex = 1, encoding="UTF-8-BOM", fill = TRUE)
 
 
 # 標準化
