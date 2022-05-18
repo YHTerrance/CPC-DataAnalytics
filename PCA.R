@@ -9,6 +9,7 @@ library(tidySEM)
 library(ggplot2)
 library(dplyr)
 library(semPlot)
+library(Hmisc)
 dataset <- read.xlsx("data_oil_mod.xlsx", sheetIndex = 1, encoding="UTF-8-BOM", fill = TRUE)
 
 
@@ -79,7 +80,7 @@ ggbiplot(pca_water, choice=2:3,scale=1, obs.scale = 1, var.scale = 1,
 ggsave("plot/PC2&PC3_season.png")
 
 
-ggbiplot(pca_water,scale=2:3, obs.scale = 1, var.scale = 1, 
+ggbiplot(pca_water,choice=2:3, scale=1, obs.scale = 1, var.scale = 1, 
          groups = dataset$pos, labels = dataset$pos, colour = clarity) +
   theme_dark() + 
   scale_color_manual(values=c("orange", "purple", "red", "blue", "yellow"))
@@ -112,12 +113,12 @@ cfa_model <-'
             '
 
 cfa_res <- cfa(cfa_model, data = dataset_std_water)
-summary(cfa_res, fit.measures = T)
+summary(cfa_res, fit.measures = T, rsq=T)
 semPaths(object = cfa_res,
          whatLabels = "std",
          edge.label.cex = 1,
-         layout = "circle",
-         rotation = 3,
+         layout = "tree",
+         rotation = 2,
          color = "lightblue")
 
 sem_model <-'
@@ -132,12 +133,12 @@ sem_model <-'
             CCA_coverage ~ PC1+PC2+PC3+PC4
             '
 semModel_res = sem(sem_model, data=dataset_std_water)
-summary(semModel_res, standardized = T)
+summary(semModel_res, fit.measures=T)
 semPaths(object = semModel_res,
          whatLabels = "std",
          edge.label.cex = 1,
-         layout = "circle",
-         rotation = 3,
+         layout = "tree",
+         rotation = 2,
          color = "lightblue")
 
 
