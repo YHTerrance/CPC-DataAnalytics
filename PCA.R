@@ -34,7 +34,7 @@ fifth.pca_water <- top5.pca_water.eigenvector[,5]
 dotchart(first.pca_water[order(first.pca_water, decreasing=FALSE)] ,   # 排序後的係數
          main="Loading Plot for PC1",                      # 主標題
          xlab="Variable Loadings",                         # x軸的標題
-         col="red") 
+         col="red")
 
 dotchart(second.pca_water[order(second.pca_water, decreasing=FALSE)] ,   # 排序後的係數
          main="Loading Plot for PC2",                      # 主標題
@@ -61,33 +61,46 @@ ggbiplot(pca_water,scale=1, obs.scale = 1, var.scale = 1,
          groups = dataset$season, labels = dataset$season, colour = clarity) +
          theme_dark() + 
          scale_color_manual(values=c("orange", "purple", "red", "blue"))
+ggsave("plot/PC1&PC2_season.png")
+
 
 ggbiplot(pca_water,scale=1, obs.scale = 1, var.scale = 1, 
          groups = dataset$pos, labels = dataset$pos, colour = clarity) +
   theme_dark() + 
   scale_color_manual(values=c("orange", "purple", "red", "blue", "yellow"))
+ggsave("plot/PC1&PC2_position.png")
 
 ## pca2 & pca3
+
 ggbiplot(pca_water, choice=2:3,scale=1, obs.scale = 1, var.scale = 1, 
          groups = dataset$season, labels = dataset$season, colour = clarity) +
   theme_dark() + 
   scale_color_manual(values=c("orange", "purple", "red", "blue"))
+ggsave("plot/PC2&PC3_season.png")
+
 
 ggbiplot(pca_water,scale=2:3, obs.scale = 1, var.scale = 1, 
          groups = dataset$pos, labels = dataset$pos, colour = clarity) +
   theme_dark() + 
   scale_color_manual(values=c("orange", "purple", "red", "blue", "yellow"))
+ggsave("plot/PC2&PC3_position.png")
+
 
 ## pca1 & pca3
+
 ggbiplot(pca_water, choice=c(1,3),scale=1, obs.scale = 1, var.scale = 1, 
          groups = dataset$season, labels = dataset$season, colour = clarity) +
   theme_dark() + 
   scale_color_manual(values=c("orange", "purple", "red", "blue"))
+ggsave("plot/PC1&PC3_season.png")
+
 
 ggbiplot(pca_water,choice=c(1,3), obs.scale = 1, var.scale = 1, 
          groups = dataset$pos, labels = dataset$pos, colour = clarity) +
   theme_dark() + 
   scale_color_manual(values=c("orange", "purple", "red", "blue", "yellow"))
+ggsave("plot/PC1&PC3_position.png")
+
 
 cfa_model <-'
             # measurement model
@@ -100,7 +113,12 @@ cfa_model <-'
 
 cfa_res <- cfa(cfa_model, data = dataset_std_water)
 summary(cfa_res, fit.measures = T)
-
+semPaths(object = cfa_res,
+         whatLabels = "std",
+         edge.label.cex = 1,
+         layout = "circle",
+         rotation = 3,
+         color = "lightblue")
 
 sem_model <-'
             # measurement model
@@ -113,13 +131,13 @@ sem_model <-'
             non_CCA_cover ~ PC1+PC2+PC3+PC4
             CCA_coverage ~ PC1+PC2+PC3+PC4
             '
-underModel = sem(sem_model, data=dataset_std_water)
-summary(underModel, standardized = T)
-semPaths(object = underModel,
+semModel_res = sem(sem_model, data=dataset_std_water)
+summary(semModel_res, standardized = T)
+semPaths(object = semModel_res,
          whatLabels = "std",
          edge.label.cex = 1,
-         layout = "tree",
-         rotation = 2,
+         layout = "circle",
+         rotation = 3,
          color = "lightblue")
 
 
