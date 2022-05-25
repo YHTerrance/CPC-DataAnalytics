@@ -105,11 +105,9 @@ ggsave("plot/PC1&PC3_position.png")
 
 cfa_model <-'
             # measurement model
-            PC1 =~ 0.411*temp +(0.308)*sal +(0.309)*pH +(-0.165)*DO +(- 0.253)*Turb +(- 0.392)*NO2 +(-0.479)*NO3 +(-0.247)*NH3 +(-0.322)*PO43
-            PC2 =~ (-0.358)*temp + (0.363)*sal + (-0.027)*pH + (0.628)*DO + (-0.292)*Turb + (0.149)*NO2 + (0.083)*NO3 +(-0.438)*NH3 + (-0.196)*PO43
-            PC3 =~ (0.249)*temp+ (-0.033)*sal + (0.724)*pH + (0.337)*DO + (0.143)*Turb + ( 0.364)*NO2 + (-0.103)*NO3 + (0.053)*NH3 + (0.365)*PO43
-            PC4 =~ (-0.108)*temp+ (-0.032)*sal + (0.724)*pH + (0.04)*DO + (-0.745)*Turb + (0.041)*NO2 + (0.722)*NO3 + (0.489)*NH3 + (-0.206)*PO43
-            # PC5 =~ 0.09*temp+ (-0.032)*sal + (0.019)*pH + (0.342)*DO + (0.472)*Turb + (0.289)*NO2 + (-0.051)*NO3 + 0.391*NH3 + (-0.703)*PO43
+            PC1 =~ temp + NO3
+            PC2 =~ DO + NH3
+            PC3 =~ pH
             '
 
 cfa_res <- cfa(cfa_model, data = dataset_std_water)
@@ -123,14 +121,13 @@ semPaths(object = cfa_res,
 
 sem_model <-'
             # measurement model
-            PC1 =~ 0.411*temp +(0.308)*sal +(0.309)*pH +(-0.165)*DO +(- 0.253)*Turb +(- 0.392)*NO2 +(-0.479)*NO3 +(-0.247)*NH3 +(-0.322)*PO43
-            PC2 =~ (-0.358)*temp + (0.363)*sal + (-0.027)*pH + (0.628)*DO + (-0.292)*Turb + (0.149)*NO2 + (0.083)*NO3 +(-0.438)*NH3 + (-0.196)*PO43
-            PC3 =~ (0.249)*temp+ (-0.033)*sal + (0.724)*pH + (0.337)*DO + (0.143)*Turb + ( 0.364)*NO2 + (-0.103)*NO3 + (0.053)*NH3 + (0.365)*PO43
-            PC4 =~ (-0.108)*temp+ (-0.032)*sal + (0.724)*pH + (0.04)*DO + (-0.745)*Turb + (0.041)*NO2 + (0.722)*NO3 + (0.489)*NH3 + (-0.206)*PO43
+            PC1 =~ temp + NO3
+            PC2 =~ DO + NH3
+            PC3 =~ pH
             
             # regression model
-            non_CCA_cover ~ PC1+PC2+PC3+PC4
-            CCA_coverage ~ PC1+PC2+PC3+PC4
+            non_CCA_cover ~ PC1+PC2+PC3
+            CCA_coverage ~ PC1+PC2+PC3
             '
 semModel_res = sem(sem_model, data=dataset_std_water)
 summary(semModel_res, fit.measures=T)
