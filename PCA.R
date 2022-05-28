@@ -30,8 +30,6 @@ top5.pca_water.eigenvector <- pca_water$rotation[, 1:5]
 first.pca_water <- top5.pca_water.eigenvector[, 1]
 second.pca_water <- top5.pca_water.eigenvector[, 2]
 third.pca_water <- top5.pca_water.eigenvector[, 3]
-fourth.pca_water <- top5.pca_water.eigenvector[,4]
-fifth.pca_water <- top5.pca_water.eigenvector[,5]
 dotchart(first.pca_water[order(first.pca_water, decreasing=FALSE)] ,   # 排序後的係數
          main="Loading Plot for PC1",                      # 主標題
          xlab="Variable Loadings",                         # x軸的標題
@@ -44,14 +42,6 @@ dotchart(second.pca_water[order(second.pca_water, decreasing=FALSE)] ,   # 排�
 
 dotchart(third.pca_water[order(third.pca_water, decreasing=FALSE)] ,   # 排序後的係數
          main="Loading Plot for PC3",                      # 主標題
-         xlab="Variable Loadings",                         # x軸的標題
-         col="red")
-dotchart(fourth.pca_water[order(fourth.pca_water, decreasing=FALSE)] ,   # 排序後的係數
-         main="Loading Plot for P4",                      # 主標題
-         xlab="Variable Loadings",                         # x軸的標題
-         col="red")
-dotchart(fifth.pca_water[order(fifth.pca_water, decreasing=FALSE)] ,   # 排序後的係數
-         main="Loading Plot for PC5",                      # 主標題
          xlab="Variable Loadings",                         # x軸的標題
          col="red")
 
@@ -107,7 +97,7 @@ cfa_model <-'
             # measurement model
             PC1 =~ temp + NO3
             PC2 =~ DO + NH3
-            PC3 =~ pH
+            PC3 =~ 1*pH
             '
 
 cfa_res <- cfa(cfa_model, data = dataset_std_water)
@@ -123,7 +113,7 @@ sem_model <-'
             # measurement model
             PC1 =~ temp + NO3
             PC2 =~ DO + NH3
-            PC3 =~ pH
+            PC3 =~ 1*pH
             
             # regression model
             non_CCA_cover ~ PC1+PC2+PC3
