@@ -1,18 +1,12 @@
-library(lavaan)
 library(stringr)
 library(xlsx)
 library(tidyverse)
 library(gridExtra)
 library(data.table)
 library(ggbiplot)
-library(OpenMx)
-library(tidySEM)
 library(ggplot2)
 library(dplyr)
-library(semPlot)
-library(Hmisc)
 library(gplots)
-library(ggiraphExtra)
 dataset <- read.xlsx("data_oil_mod.xlsx", sheetIndex = 1, encoding="UTF-8-BOM", fill = TRUE)
 
 
