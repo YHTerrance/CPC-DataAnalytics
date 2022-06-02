@@ -14,8 +14,8 @@ dataset <- read.xlsx("data_oil_pollute.xlsx", sheetIndex = 1, encoding="UTF-8-BO
 
 
 # 標準化
-dataset_std_pollute <- scale(cbind(dataset[,27:34]))
-
+dataset_std_pollute <- scale((dataset[,27:34]))
+dataset <- cbind(dataset[,2:8], dataset_std_pollute)
 #取得PCA
 pca_pollute <- prcomp(formula =~ Hg + Cd + Cr + Cu + Ni + Pb + Zn + As,   
                     data = data.frame(dataset_std_pollute),
@@ -47,19 +47,18 @@ dotchart(third.pca_pollute[order(third.pca_pollute, decreasing=FALSE)] ,   # 排
 
 ## pca1 & pca2
 pca_pollute_rotation<-data.frame(pca_pollute$rotation[, 1:5])
-cumulative.pca_pollute_props
 ggbiplot(pca_pollute,scale=1, obs.scale = 1, var.scale = 1, 
          groups = dataset$season, labels = dataset$season, colour = clarity) +
          theme_dark() + 
          scale_color_manual(values=c("orange", "purple", "red", "blue"))
-ggsave("plot/PC1&PC2_season.png")
+ggsave("../plot/pollute_PC1&PC2_season.png")
 
 
 ggbiplot(pca_pollute,scale=1, obs.scale = 1, var.scale = 1, 
          groups = dataset$pos, labels = dataset$pos, colour = clarity) +
   theme_dark() + 
   scale_color_manual(values=c("orange", "purple", "red", "blue", "yellow"))
-ggsave("plot/PC1&PC2_position.png")
+ggsave("../plot/pollute_PC1&PC2_position.png")
 
 ## pca2 & pca3
 
@@ -67,14 +66,14 @@ ggbiplot(pca_pollute, choice=2:3,scale=1, obs.scale = 1, var.scale = 1,
          groups = dataset$season, labels = dataset$season, colour = clarity) +
   theme_dark() + 
   scale_color_manual(values=c("orange", "purple", "red", "blue"))
-ggsave("plot/PC2&PC3_season.png")
+ggsave("../plot/pollute_PC2&PC3_season.png")
 
 
 ggbiplot(pca_pollute,choice=2:3, scale=1, obs.scale = 1, var.scale = 1, 
          groups = dataset$pos, labels = dataset$pos, colour = clarity) +
   theme_dark() + 
   scale_color_manual(values=c("orange", "purple", "red", "blue", "yellow"))
-ggsave("plot/PC2&PC3_position.png")
+ggsave("../plot/pollute_PC2&PC3_position.png")
 
 
 ## pca1 & pca3
@@ -83,13 +82,13 @@ ggbiplot(pca_pollute, choice=c(1,3),scale=1, obs.scale = 1, var.scale = 1,
          groups = dataset$season, labels = dataset$season, colour = clarity) +
   theme_dark() + 
   scale_color_manual(values=c("orange", "purple", "red", "blue"))
-ggsave("plot/PC1&PC3_season.png")
+ggsave("../plot/pollute_PC1&PC3_season.png")
 
 
 ggbiplot(pca_pollute,choice=c(1,3), obs.scale = 1, var.scale = 1, 
          groups = dataset$pos, labels = dataset$pos, colour = clarity) +
   theme_dark() + 
   scale_color_manual(values=c("orange", "purple", "red", "blue", "yellow"))
-ggsave("plot/PC1&PC3_position.png")
+ggsave("../plot/pollute_PC1&PC3_position.png")
 
 
