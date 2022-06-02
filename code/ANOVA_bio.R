@@ -8,11 +8,11 @@ library(ggplot2)
 library(dplyr)
 library(gplots)
 library(ggiraphExtra)
-dataset <- read.xlsx("data_oil_mod.xlsx", sheetIndex = 1, encoding="UTF-8-BOM", fill = TRUE)
+dataset <- read.xlsx("data_oil_water.xlsx", sheetIndex = 1, encoding="UTF-8-BOM", fill = TRUE)
 
 
 # 標準化
-dataset_std_water <- scale(cbind(dataset[,11:20],dataset[,35:36]))
+dataset_std_water <- scale(cbind(dataset[,11:19]))
 
 #取得PCA
 pca_water <- prcomp(formula =~ temp+sal+pH+DO+Turb+NO2+NO3+NH3+PO43,   
