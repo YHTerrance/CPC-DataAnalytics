@@ -23,7 +23,7 @@ def filter_bio_data(df):
 	df_new = pd.DataFrame()
 	for i in range(0, df.shape[0]):
 		if(df.iloc[i][7] == 'L'):
-			if(pd.isnull(df.iat[i, 35])):
+			if(pd.isnull(df.iat[i, 36])):
 				continue
 			df_new = df_new.append(df.iloc[i])
 	return df_new
@@ -71,9 +71,14 @@ def buttom_pollution(df):
 	
 	
 def biology_factor(df):
-	for j in range(33, 35):
+	for j in range(33, 49):
 		for i in range(0, df.shape[0]):
-			df.iat[i, j] = math.asin(math.sqrt((df.iat[i, j] / 100)))
+			if pd.isnull(df.iat[i, j]):
+				df.iat[i, j] = 0
+			if j == 35 or j == 36 or j == 38 or j == 39 or j == 41 or j == 47:
+				df.iat[i, j] = math.log(df.iat[i, j]+1)
+			if j == 48:
+				df.iat[i, j] = math.sqrt(df.iat[i, j]+0.5)
 	
 	return df
 	
@@ -121,6 +126,7 @@ df1.reset_index(drop = True, inplace = True)
 
 
 df2 = filter_bio_data(data)
+# print(df2)
 df2 = biology_factor(df2)
 df2.reset_index(drop = True, inplace = True)
 
@@ -135,7 +141,6 @@ df3.reset_index(drop = True, inplace = True)
 df4 = filter_land_data(data)
 df4 = land_factor(df4)
 df4.reset_index(drop = True, inplace = True)
-print(df4)
 
 # print(df1)
 df1.to_excel('/Users/wujunwei/Documents/GitHub/SEM/CPC-DataAnalytics/code/data_oil_water.xlsx')

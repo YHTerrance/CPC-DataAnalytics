@@ -8,7 +8,7 @@ library(ggplot2)
 library(dplyr)
 library(gplots)
 library(ggiraphExtra)
-dataset <- read.xlsx("data_oil_pollute.xlsx", sheetIndex = 1, encoding="UTF-8-BOM", fill = TRUE)
+dataset <- xlsx::read.xlsx("data_oil_pollute.xlsx", sheetIndex = 1, encoding="UTF-8-BOM", fill = TRUE)
 
 
 # 標準化
@@ -21,10 +21,10 @@ pca_pollute <- prcomp(formula =~ Hg + Cd + Cr + Cu + Ni + Pb + Zn + As,
 pca_pollute_vars <- (pca_pollute$sdev)^2
 pca_pollute_props <- pca_pollute_vars / sum(pca_pollute_vars)
 cumulative.pca_pollute_props <- cumsum(pca_pollute_props)
-# PC1 : 0.437 * Pb + 0.429 * Zn  # 53%
-# PC2 : -0.645 * Cd -0.587 * Hg  # 20%
-PC1 <- -0.479 * dataset[,13] + 0.429 * dataset[,14]
-PC2 <- -0.645 * dataset[,9] -0.587 * dataset[,8]
+# PC1 : 0.421 * Cr + 0.411 * Zn  # 44.9%
+# PC2 : -0.523 * Cd -0.475 * Hg  # 21.2%
+PC1 <- -0.421 * dataset[,10] + 0.411 * dataset[,14]
+PC2 <- -0.523 * dataset[,9] -0.475 * dataset[,8]
 
 a <- str_c(dataset[,1] , dataset[,2], sep = ".")
 PC_score <- data.frame(cbind(dataset[,1], dataset[,2], a, dataset[,4], dataset[,5],PC1, PC2))
@@ -46,12 +46,12 @@ ggHSD(TukeyHSD(aov_pc))
 aov_pc = aov(PC1 ~ factor(season), data = PC_score)
 summary(aov_pc)
 TukeyHSD(aov_pc)
-plot(TukeyHSD(aov_pc, conf.level = 0.95))
+ggHSD(TukeyHSD(aov_pc))
 
 aov_pc = aov(PC1 ~ factor(season) + factor(pos) + factor(season) * factor(pos), data = PC_score)
 summary(aov_pc)
 TukeyHSD(aov_pc)
-plot(TukeyHSD(aov_pc, conf.level = 0.95))
+ggHSD(TukeyHSD(aov_pc))
 
 aov_pc = aov(PC1 ~ factor(pos), data = PC_score)
 summary(aov_pc)
@@ -62,6 +62,7 @@ ggHSD(TukeyHSD(aov_pc))
 aov_pc = aov(PC1 ~ factor(time), data = PC_score)
 summary(aov_pc)
 TukeyHSD(aov_pc)
+ggHSD(TukeyHSD(aov_pc))
 ######## PC2 ANOVA ###################
 aov_pc = aov(PC2 ~ factor(year) + factor(season), data = PC_score)
 summary(aov_pc)
