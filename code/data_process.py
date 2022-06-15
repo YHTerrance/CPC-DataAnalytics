@@ -122,27 +122,19 @@ df1 = filter_water_data(data)
 df1 = process_na_val(df1)
 df1 = trandform_water_data(df1)
 df1.reset_index(drop = True, inplace = True)
-# print(df1)
-
 
 df2 = filter_bio_data(data)
-# print(df2)
 df2 = biology_factor(df2)
 df2.reset_index(drop = True, inplace = True)
-
-# print(df2)
 
 df3 = filter_buttom_pollution_data(data)
 df3 = buttom_pollution(df3)
 df3.reset_index(drop = True, inplace = True)
 
-# print(df3)
-
 df4 = filter_land_data(data)
 df4 = land_factor(df4)
 df4.reset_index(drop = True, inplace = True)
 
-# print(df1)
 df1.to_excel('/Users/wujunwei/Documents/GitHub/SEM/CPC-DataAnalytics/code/data_oil_water.xlsx')
 df2.to_excel('/Users/wujunwei/Documents/GitHub/SEM/CPC-DataAnalytics/code/data_oil_bio.xlsx')
 df3.to_excel('/Users/wujunwei/Documents/GitHub/SEM/CPC-DataAnalytics/code/data_oil_pollute.xlsx')
